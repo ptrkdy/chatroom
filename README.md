@@ -6,8 +6,6 @@
 
 [Watch a demo of our Chatroom in action](https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/demo.html)
 
-[Try a live chatbot](https://scalableminds.com/)
-
 ## Features
 
 * React-based component
@@ -16,6 +14,7 @@
 * Generates a unique session id and keeps it in `sessionStorage`
 * Queues consecutive bot messages for better readability
 * Speech input (only in Chrome for now)
+* Text to Speech (only in Chrome for now)
 * Demo mode included (ideal for scripted screencasts)
 * Hosted on S3 for easy use
 * Simple setup. Works with Rasa's [REST channel](https://rasa.com/docs/rasa/user-guide/connectors/your-own-website/#rest-channels)
@@ -32,12 +31,13 @@
 
   <script src="https://npm-scalableminds.s3.eu-central-1.amazonaws.com/@scalableminds/chatroom@master/dist/Chatroom.js"/></script>
   <script type="text/javascript">
-    var chatroom = window.Chatroom({
+    var chatroom = new window.Chatroom({
       host: "http://localhost:5005",
       title: "Chat with Mike",
       container: document.querySelector(".chat-container"),
       welcomeMessage: "Hi, I am Mike. How may I help you?",
-      speechRecognition: "en-US"
+      speechRecognition: "en-US",
+      voiceLang: "en-US"
     });
     chatroom.openChat();
   </script>
@@ -51,14 +51,18 @@ rest:
   # pass
 ```
 
-Depending on your setup you might need to start the Rasa CLI / Rasa server with the right CORS headers, e.g. `--cors "*"`.
+Restart your Rasa server. Depending on your setup you might need to add CORS headers, e.g. `--cors "*"`.
+
+```
+rasa run --credentials ./credentials.yml  --enable-api --auth-token XYZ123 --model ./models --endpoints ./endpoints.yml --cors "*"
+```
 
 Note, the version of the Chatroom's Javascript file is encoded in the URL. `chatroom@master` is always the latest version from the GitHub master branch. Use e.g. `chatroom@0.10.0` to load a specific release. [All Releases can be found here.](https://github.com/scalableminds/chatroom/releases)
 
 
 | Chatroom Version  | Compatible Rasa Core Version |
 |-------------------|------------------------------|
-| 0.10.x            | 1.0                          |
+| 0.10.x            | 1.0 - 2.x                    |
 | 0.9.x (Deprecated)| 0.11.4+, 0.13.7              |
 | 0.8.x (Deprecated)| 0.11.4+                      |
 | 0.7.8 (Deprecated)| 0.10.4+                      |
